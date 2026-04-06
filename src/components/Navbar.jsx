@@ -59,7 +59,7 @@ export default function Navbar() {
 
         {/* Desktop Button */}
         <button className="hidden md:block bg-black text-white px-4 py-2 rounded-lg text-sm">
-          Get Started
+          Contact
         </button>
       </div>
 
