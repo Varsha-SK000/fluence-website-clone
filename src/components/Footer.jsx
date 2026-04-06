@@ -11,9 +11,6 @@ export default function Footer() {
           {/* Logo and Description */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-black text-white flex items-center justify-center rounded-lg font-bold">
-                ✕
-              </div>
               <span className="text-lg font-medium text-black">
                 Fluence AI
               </span>
@@ -24,10 +21,10 @@ export default function Footer() {
             </p>
 
             <div className="flex gap-4">
-              <a href="#" className="text-gray-600 hover:text-black">Facebook</a>
-              <a href="#" className="text-gray-600 hover:text-black">X</a>
-              <a href="#" className="text-gray-600 hover:text-black">Instagram</a>
-              <a href="#" className="text-gray-600 hover:text-black">LinkedIn</a>
+              <a href="https://facebook.com/" className="text-gray-600 hover:text-black">Facebook</a>
+              <a href="https://x.com/" className="text-gray-600 hover:text-black">X</a>
+              <a href="https://instagram.com/" className="text-gray-600 hover:text-black">Instagram</a>
+              <a href="https://linkedin.com/" className="text-gray-600 hover:text-black">LinkedIn</a>
             </div>
           </div>
 
@@ -39,8 +36,9 @@ export default function Footer() {
               <li><a href="#about" className="hover:text-black">About</a></li>
               <li><a href="#testimonial" className="hover:text-black">Testimonial</a></li>
               <li><a href="#pricing" className="hover:text-black">Pricing</a></li>
-              <li><a href="#contact" className="hover:text-black">Contact</a></li>
-              <li><a href="#blog" className="hover:text-black">Blog</a></li>
+              <li><a href="https://fluence.framer.website/contact" className="hover:text-black">Contact</a></li>
+              <li><a href="https://fluence.framer.website/blog" className="hover:text-black">Blog</a></li>
+              <li><a href="https://fluence.framer.website/404" className="hover:text-black">404</a></li>
             </ul>
           </div>
 
@@ -61,10 +59,10 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           className="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600"
         >
-          <p>© 2025 Design & Developed by <a href="#" className="hover:text-black">Amani</a></p>
+          <p>© 2025 Design & Developed by <a href="https://x.com/hello_amani" className="hover:text-black">Amani</a></p>
 
           <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-black">Privacy Policy</a>
+            <a href="https://fluence.framer.website/privacy-policy" className="hover:text-black">Privacy Policy</a>
           </div>
         </motion.div>
 
