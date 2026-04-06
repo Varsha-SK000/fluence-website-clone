@@ -71,7 +71,7 @@ export default function Blog() {
             Ready to Launch your AI Agents with us?
           </h3>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <a href="https://fluence.framer.website/contact" className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-semibold text-lg hover:opacity-90 transition">
+            <a  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-semibold text-lg hover:opacity-90 transition">
               Get Started
             </a>
             <a href="mailto:someone@yoursite.com" className="px-8 py-4 border border-gray-300 text-black rounded-lg font-semibold text-lg hover:bg-gray-50 transition">
