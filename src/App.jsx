@@ -10,6 +10,7 @@ import FAQ from "./components/FAQ";
 import Blog from "./components/Blog";
 import Footer from "./components/Footer";
 import { Key } from "lucide-react";
+import Ticker from "./components/Ticker";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Testimonial />
       <Process />
       <Pricing />
+      <Ticker />
       <FAQ />
       <Blog />
       <Footer />

@@ -177,10 +177,13 @@ export default function Navbar() {
               animate={{ scale: scrolled ? 0.9 : 1 }}
               className="flex items-center gap-2"
             >
-              <div className="w-8 h-8">
+              {/* <div className="w-8 h-8">
                 <svg viewBox="0 0 40 40">
                   <circle cx="20" cy="20" r="20" fill="#000" />
                 </svg>
+              </div> */}
+              <div className="w-8 h-8 rounded-md bg-black flex items-center justify-center shadow-md transition hover:scale-105">
+                <span className="text-white text-lg font-bold">✦</span>
               </div>
               <span className="text-lg font-semibold">Fluence AI</span>
             </motion.div>
@@ -222,7 +225,8 @@ export default function Navbar() {
           </nav>
 
           {/* Magnetic button */}
-          <motion.button
+          <motion.a
+            href="/contact"
             ref={btnRef}
             animate={{ x: btnPos.x, y: btnPos.y }}
             whileHover={{ scale: 1.08 }}
@@ -231,7 +235,7 @@ export default function Navbar() {
             className="hidden md:block bg-black text-white px-5 py-2 rounded-xl text-sm z-10"
           >
             Contact
-          </motion.button>
+          </motion.a>
         </motion.div>
 
         {/* MOBILE */}
