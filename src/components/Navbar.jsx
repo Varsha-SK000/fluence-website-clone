@@ -14,6 +14,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   const [hovered, setHovered] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [bounce, setBounce] = useState(false);
 
   const { scrollY } = useScroll();
   const velocity = useVelocity(scrollY);
@@ -23,23 +25,16 @@ export default function Navbar() {
     stiffness: 400,
   });
 
-  const blur = useTransform(smoothVelocity, [-500, 0, 500], [25, 10, 25]);
+  const blur = useTransform(smoothVelocity, [-500, 0, 500], [22, 14, 22]);
 
-  const [scrolled, setScrolled] = useState(false);
-  const [bounce, setBounce] = useState(false);
-
-  // Cursor glow
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const move = (e) => {
-      setCursor({ x: e.clientX, y: e.clientY });
-    };
+    const move = (e) => setCursor({ x: e.clientX, y: e.clientY });
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
   }, []);
 
-  // Scroll + bounce
   useEffect(() => {
     let timeout;
 
@@ -54,7 +49,6 @@ export default function Navbar() {
     });
   }, [scrollY]);
 
-  // Scroll spy
   useEffect(() => {
     const handleScroll = () => {
       let current = "";
@@ -72,7 +66,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smooth scroll (inertia feel)
   const handleNavClick = (e, id) => {
     e.preventDefault();
     const el = document.getElementById(id);
@@ -83,7 +76,6 @@ export default function Navbar() {
     let startTime = null;
 
     const duration = 600;
-
     const ease = (t) => 1 - Math.pow(1 - t, 3);
 
     const animate = (time) => {
@@ -99,16 +91,17 @@ export default function Navbar() {
     requestAnimationFrame(animate);
   };
 
-  // Magnetic button
   const btnRef = useRef(null);
   const [btnPos, setBtnPos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
-    const rect = btnRef.current.getBoundingClientRect();
+    const rect = btnRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    setBtnPos({ x: x * 0.2, y: y * 0.2 });
+    setBtnPos({ x: x * 0.25, y: y * 0.25 });
   };
 
   const resetBtn = () => setBtnPos({ x: 0, y: 0 });
@@ -125,72 +118,57 @@ export default function Navbar() {
         transition={{ type: "spring", damping: 30, stiffness: 200 }}
         style={{
           background:
-            "radial-gradient(circle, rgba(255,255,255,0.25), transparent 100%)",
-          filter: "blur(100px)",
+            "radial-gradient(circle, rgba(255,255,255,0.25), transparent 70%)",
+          filter: "blur(90px)",
         }}
       />
 
-      <header className="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none">
+      {/* HEADER */}
+      <header
+        className="fixed top-0 left-0 w-full z-50 flex justify-center"
+        style={{
+          padding: scrolled ? "14px 24px" : "26px 32px",
+          transition: "padding 0.45s cubic-bezier(.4,0,.2,1)",
+        }}
+      >
         <motion.div
           layout
           animate={{
-            width: scrolled ? "70%" : "100%",
+            height: scrolled ? 56 : 64,
+            width: scrolled ? "70%" : "90%",
             scale: scrolled ? 0.92 : 1,
-            borderRadius: scrolled ? 20 : 28,
-            paddingTop: scrolled ? 8 : 16,
-            paddingBottom: scrolled ? 8 : 16,
+            borderRadius: scrolled ? 12 : 16,
             y: bounce ? -4 : 0,
           }}
           transition={{
             type: "spring",
             stiffness: 220,
-            damping: 20,
+            damping: 22,
           }}
           style={{
             backdropFilter: `blur(${blur.get()}px)`,
-          }}
-          className="pointer-events-auto mt-4 px-6 flex items-center justify-between border border-gray-200 bg-white/60 shadow-md relative overflow-hidden"
-        >
-          {/* Noise texture */}
-          <div className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+            WebkitBackdropFilter: `blur(${blur.get()}px)`,
 
-          {/* Gradient edge */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-transparent to-white/40 opacity-60 pointer-events-none" />
+            backgroundColor: "rgba(225, 215, 237, 0.6)",
+            border: "1px solid rgba(255, 255, 255, 0.25)",
+            maxWidth: "1240px",
+            width: "100%",
+          }}
+          className="px-6 flex items-center justify-between relative overflow-hidden"
+        >
+          {/* NOISE */}
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
           {/* LEFT */}
-          <div className="flex items-center gap-4 z-10">
-            <button
-              onClick={() => setOpen(!open)}
-              className="md:hidden relative w-7 h-7 flex items-center justify-center"
-            >
-              <motion.span
-                animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
-                className="absolute w-6 h-[2px] bg-black"
-              />
-              <motion.span
-                animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
-                className="absolute w-6 h-[2px] bg-black"
-              />
-            </button>
-
-            <motion.div
-              animate={{ scale: scrolled ? 0.9 : 1 }}
-              className="flex items-center gap-2"
-            >
-              {/* <div className="w-8 h-8">
-                <svg viewBox="0 0 40 40">
-                  <circle cx="20" cy="20" r="20" fill="#000" />
-                </svg>
-              </div> */}
-              <div className="w-8 h-8 rounded-md bg-black flex items-center justify-center shadow-md transition hover:scale-105">
-                <span className="text-white text-lg font-bold">✦</span>
-              </div>
-              <span className="text-lg font-semibold">Fluence AI</span>
-            </motion.div>
+          <div className="flex items-center gap-3 z-10">
+            <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center">
+              <span className="text-white font-bold">✦</span>
+            </div>
+            <span className="text-lg font-semibold">Fluence AI</span>
           </div>
 
-          {/* NAV */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium relative z-10">
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium z-10">
             {navItems.map((item, i) => (
               <div
                 key={item}
@@ -201,8 +179,9 @@ export default function Navbar() {
                 <a
                   href={`#${item}`}
                   onClick={(e) => handleNavClick(e, item)}
-                  className={`capitalize transition ${active === item ? "text-black" : "text-gray-500"
-                    }`}
+                  className={`capitalize transition ${
+                    active === item ? "text-black" : "text-gray-600"
+                  }`}
                 >
                   {item}
                 </a>
@@ -217,64 +196,72 @@ export default function Navbar() {
                 {hovered === i && (
                   <motion.div
                     layoutId="hover"
-                    className="absolute inset-0 -z-10 bg-black/5 rounded-md"
+                    className="absolute inset-0 -z-10 rounded-md bg-black/5"
                   />
                 )}
               </div>
             ))}
+
+            {/* CONTACT BUTTON */}
+            <motion.a
+              ref={btnRef}
+              href="/contact"
+              animate={{ x: btnPos.x, y: btnPos.y }}
+              whileHover={{ scale: 1.08 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={resetBtn}
+              className="bg-black text-white px-5 py-2 rounded-xl text-sm"
+            >
+              Contact
+            </motion.a>
           </nav>
 
-          {/* Magnetic button */}
-          <motion.a
-            href="/contact"
-            ref={btnRef}
-            animate={{ x: btnPos.x, y: btnPos.y }}
-            whileHover={{ scale: 1.08 }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={resetBtn}
-            className="hidden md:block bg-black text-white px-5 py-2 rounded-xl text-sm z-10"
+          {/* MOBILE BUTTON (FIXED) */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden text-xl z-10"
           >
-            Contact
-          </motion.a>
+            ☰
+          </button>
         </motion.div>
-
-        {/* MOBILE */}
-        <AnimatePresence>
-          {open && (
-            <>
-              <motion.div
-                onClick={() => setOpen(false)}
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              />
-
-              <motion.div
-                initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 80, scale: 1 }}
-                exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                className="absolute top-0 left-1/2 -translate-x-1/2 w-[92%] bg-white border border-gray-200 rounded-2xl p-6 mt-16 shadow-xl flex flex-col gap-5"
-              >
-                {[...navItems, "contact", "blog"].map((item) => (
-                  <a
-                    key={item}
-                    href={`#${item}`}
-                    onClick={(e) => handleNavClick(e, item)}
-                    className="capitalize text-gray-700 hover:text-black"
-                  >
-                    {item}
-                  </a>
-                ))}
-
-                <button className="mt-2 bg-black text-white py-2 rounded-xl">
-                  Contact
-                </button>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </header>
+
+      {/* MOBILE MENU */}
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 80, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              className="fixed top-20 left-1/2 -translate-x-1/2 w-[90%] bg-white rounded-2xl border border-gray-200 shadow-xl p-6 flex flex-col gap-4 z-50"
+            >
+              {navItems.map((item) => (
+                <a
+                  key={item}
+                  href={`#${item}`}
+                  onClick={(e) => handleNavClick(e, item)}
+                  className="capitalize text-gray-700"
+                >
+                  {item}
+                </a>
+              ))}
+
+              <button className="bg-black text-white py-2 rounded-xl">
+                Contact
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
