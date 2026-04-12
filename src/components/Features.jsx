@@ -190,7 +190,9 @@ function FeatureRow({ row }) {
 
 export default function ProductOverview() {
   return (
-    <section className="section">
+    <section
+    id="feature"
+    className="section">
       <div className="container">
 
         {/* HEADER */}

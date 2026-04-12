@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import NotFound from "./components/Notfound";
 import AutomationTicker from "./components/AutomationTicker";
 import BuildSection from "./components/BuildSection";
+import Contact from "./components/Contact";
 
 function HomePage() {
   return (
@@ -60,6 +61,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   );
