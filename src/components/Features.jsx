@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+
 const rows = [
   {
     heading: 'Seamless Data Integration Process',
@@ -38,114 +39,50 @@ const rows = [
   },
 ];
 
-// function FeatureRow({ row }) {
-//   const imgRef = useRef(null);
-//   const wrapRef = useRef(null);
-
-//   useEffect(() => {
-//     let frame;
-
-//     const animate = () => {
-//       const img = imgRef.current;
-//       const wrap = wrapRef.current;
-
-//       if (!img || !wrap) return;
-
-//       const rect = wrap.getBoundingClientRect();
-//       const windowHeight = window.innerHeight;
-
-//       // progress based on viewport center
-//       const progress = (rect.top - windowHeight / 2) / windowHeight;
-
-//       // Fluence-like smooth movement
-//       const move = progress * 80;
-
-//       img.style.transform = `translate3d(0, ${move}px, 0) scale(1.08)`;
-
-//       frame = requestAnimationFrame(animate);
-//     };
-
-//     frame = requestAnimationFrame(animate);
-
-//     return () => cancelAnimationFrame(frame);
-//   }, []);
-
-//   return (
-//     <div className="feature-row">
-//       <div className={`feature-grid ${row.imgRight ? "reverse" : ""}`}>
-
-//         {/* TEXT */}
-//         <div className="text">
-//           {row.showTag && <span className="tag">Product Overview</span>}
-
-//           <h3>{row.heading}</h3>
-//           <p>{row.desc}</p>
-
-//           <div className="points">
-//             {row.points.map((p) => (
-//               <div className="point" key={p.label}>
-//                 <div className="icon">{p.icon}</div>
-//                 <span>{p.label}</span>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* IMAGE */}
-//         <div className="image" ref={wrapRef}>
-//           <img
-//             ref={imgRef}
-//             src={row.img}
-//             alt={row.heading}
-//             style={{
-//               width: "100%",
-//               height: "100%",
-//               objectFit: "cover",
-//               willChange: "transform",
-//             }}
-//           />
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-function FeatureRow({ row }) {
-  const imgRef = useRef(null);
+/* =========================
+   FEATURE ROW
+========================= */
+function FeatureRow({ row, index }) {
   const wrapRef = useRef(null);
+  const imgRef = useRef(null);
 
   useEffect(() => {
     let current = 0;
     let target = 0;
     let raf;
 
-    const update = () => {
-      const img = imgRef.current;
+    const animate = () => {
       const wrap = wrapRef.current;
-
-      if (!img || !wrap) return;
+      const img = imgRef.current;
+      if (!wrap || !img) return;
 
       const rect = wrap.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+      const vh = window.innerHeight;
 
-      // scroll-based progress (-1 to 1)
-      target = (rect.top - windowHeight * 0.5) / windowHeight;
+      target = (rect.top - vh * 0.5) / vh;
 
-      // smooth interpolation (Fluence feel)
-      current += (target - current) * 0.08;
+      current += (target - current) * 0.07;
 
-      const moveY = current * 120; // intensity
+      const depth = index;
+      const speed = 1 + depth * 0.35;
 
-      img.style.transform = `translate3d(0, ${moveY}px, 0) scale(1.1)`;
+      const moveY = current * 140 * speed;
 
-      raf = requestAnimationFrame(update);
+      img.style.transform = `
+        translate3d(0, ${moveY}px, 0)
+        scale(${1.08 - depth * 0.02})
+      `;
+
+      wrap.style.transform = `
+        translateY(${current * depth * 20}px)
+      `;
+
+      raf = requestAnimationFrame(animate);
     };
 
-    raf = requestAnimationFrame(update);
-
+    raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [index]);
 
   return (
     <div className="feature-row">
@@ -170,17 +107,7 @@ function FeatureRow({ row }) {
 
         {/* IMAGE */}
         <div className="image" ref={wrapRef}>
-          <img
-            ref={imgRef}
-            src={row.img}
-            alt={row.heading}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              willChange: "transform",
-            }}
-          />
+          <img ref={imgRef} src={row.img} alt={row.heading} />
         </div>
 
       </div>
@@ -188,11 +115,13 @@ function FeatureRow({ row }) {
   );
 }
 
+/* =========================
+   MAIN COMPONENT
+========================= */
 export default function ProductOverview() {
   return (
-    <section
-    id="feature"
-    className="section">
+    <section id="feature" className="section">
+
       <div className="container">
 
         {/* HEADER */}
@@ -213,14 +142,13 @@ export default function ProductOverview() {
 
           <p>
             Discover how Fluence AI transforms raw data into actionable insights.
-            Our advanced features are designed to optimize workflows
           </p>
         </div>
 
-        {/* CARD */}
-        <div className="card">
+        {/* STACK */}
+        <div className="stack">
           {rows.map((row, i) => (
-            <FeatureRow key={i} row={row} />
+            <FeatureRow key={i} row={row} index={i} />
           ))}
         </div>
 
@@ -229,138 +157,147 @@ export default function ProductOverview() {
       {/* STYLES */}
       <style>{`
         .section{
-          padding: 90px 20px;
+          flex-flow: row;
+          flex: none;
+          place-content: flex-start center;
+          align-items: flex-start;
+          gap: 0;
+          width: 100%;
+          height: min-content;
+          padding: 100px 16px 200px;
+          display: flex;
+          position: relative;
+          overflow: visible;
           background: #fff;
         }
 
         .container{
-          max-width: 1100px;
-          margin: 0 auto;
+          max-width:1100px;
+          margin:0 auto;
+          width:100%;
         }
 
         .header{
-          text-align: center;
-          margin-bottom: 60px;
+          text-align:center;
+          margin-bottom:70px;
+        }
+
+        .badge{
+          padding:6px 14px;
+          border:1px solid #ddd;
+          border-radius:999px;
+          font-size:13px;
         }
 
         .header h2{
-          font-size: 52px;
-          line-height: 1.1;
-          margin: 18px 0;
-          font-weight: 800;
-          letter-spacing: -0.03em;
+          font-size:52px;
+          font-weight:800;
+          margin:18px 0;
         }
 
         .header p{
-          max-width: 520px;
-          margin: 0 auto;
-          color: #666;
+          max-width:520px;
+          margin:0 auto;
+          color:#666;
         }
 
-        .tag{
-          display: inline-block;
-          padding: 6px 14px;
-          border-radius: 999px;
-          border: 1px solid #e5e5e5;
-          font-size: 13px;
-          background: #fff;
-        }
-
-        .card{
-          border: 1px solid #eee;
-          border-radius: 24px;
-          overflow: hidden;
-          background: #fafafa;
+        .stack{
+          display:flex;
+          flex-direction:column;
+          gap:0;
+          width:100%;
         }
 
         .feature-row{
-          border-top: 1px solid #eee;
+          position: sticky;
+          top: 80px;
+          margin-bottom: 60px;
         }
 
         .feature-grid{
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          min-height: 420px;
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          min-height:420px;
+          border-radius:24px;
+          overflow:hidden;
+          background:#fafafa;
+          box-shadow:0 20px 60px rgba(0,0,0,0.08);
         }
 
         .feature-grid.reverse{
-          direction: rtl;
+          direction:rtl;
         }
 
         .feature-grid.reverse .text,
         .feature-grid.reverse .image{
-          direction: ltr;
+          direction:ltr;
         }
 
         .text{
-          padding: 64px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
+          padding:64px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
         }
 
         .text h3{
-          font-size: 32px;
-          margin: 14px 0;
-          font-weight: 800;
-          letter-spacing: -0.02em;
+          font-size:32px;
+          margin:14px 0;
+          font-weight:800;
         }
 
         .text p{
-          color: #666;
-          line-height: 1.7;
-          margin-bottom: 26px;
+          color:#666;
+          line-height:1.7;
+          margin-bottom:24px;
         }
 
         .points{
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
+          display:flex;
+          flex-direction:column;
+          gap:14px;
         }
 
         .point{
-          display: flex;
-          align-items: center;
-          gap: 14px;
+          display:flex;
+          align-items:center;
+          gap:12px;
         }
 
         .icon{
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-          background: #f3f3f3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          width:38px;
+          height:38px;
+          border-radius:10px;
+          background:#eee;
+          display:flex;
+          align-items:center;
+          justify-content:center;
         }
 
         .image{
-          height: 100%;
-          min-height: 420px;
+          overflow:hidden;
+          will-change:transform;
         }
 
         .image img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          display:block;
+          will-change:transform;
         }
 
-        @media(max-width: 768px){
+        @media(max-width:768px){
           .feature-grid{
-            grid-template-columns: 1fr;
-          }
-
-          .text{
-            padding: 40px 24px;
+            grid-template-columns:1fr;
           }
 
           .header h2{
-            font-size: 34px;
+            font-size:34px;
           }
 
-          .image{
-            min-height: 280px;
+          .text{
+            padding:40px 24px;
           }
         }
       `}</style>
