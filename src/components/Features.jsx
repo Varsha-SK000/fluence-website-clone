@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 const rows = [
   {
     heading: 'Seamless Data Integration Process',
@@ -38,18 +39,46 @@ const rows = [
 ];
 
 // function FeatureRow({ row }) {
+//   const imgRef = useRef(null);
+//   const wrapRef = useRef(null);
+
+//   useEffect(() => {
+//     let frame;
+
+//     const animate = () => {
+//       const img = imgRef.current;
+//       const wrap = wrapRef.current;
+
+//       if (!img || !wrap) return;
+
+//       const rect = wrap.getBoundingClientRect();
+//       const windowHeight = window.innerHeight;
+
+//       // progress based on viewport center
+//       const progress = (rect.top - windowHeight / 2) / windowHeight;
+
+//       // Fluence-like smooth movement
+//       const move = progress * 80;
+
+//       img.style.transform = `translate3d(0, ${move}px, 0) scale(1.08)`;
+
+//       frame = requestAnimationFrame(animate);
+//     };
+
+//     frame = requestAnimationFrame(animate);
+
+//     return () => cancelAnimationFrame(frame);
+//   }, []);
+
 //   return (
 //     <div className="feature-row">
-//       <div className={`feature-grid ${row.imgRight ? 'reverse' : ''}`}>
+//       <div className={`feature-grid ${row.imgRight ? "reverse" : ""}`}>
 
-//         {/* TEXT SIDE */}
+//         {/* TEXT */}
 //         <div className="text">
-//           {row.showTag && (
-//             <span className="tag">Product Overview</span>
-//           )}
+//           {row.showTag && <span className="tag">Product Overview</span>}
 
 //           <h3>{row.heading}</h3>
-
 //           <p>{row.desc}</p>
 
 //           <div className="points">
@@ -62,9 +91,19 @@ const rows = [
 //           </div>
 //         </div>
 
-//         {/* IMAGE SIDE */}
-//         <div className="image">
-//           <img src={row.img} alt={row.heading} />
+//         {/* IMAGE */}
+//         <div className="image" ref={wrapRef}>
+//           <img
+//             ref={imgRef}
+//             src={row.img}
+//             alt={row.heading}
+//             style={{
+//               width: "100%",
+//               height: "100%",
+//               objectFit: "cover",
+//               willChange: "transform",
+//             }}
+//           />
 //         </div>
 
 //       </div>
@@ -77,9 +116,11 @@ function FeatureRow({ row }) {
   const wrapRef = useRef(null);
 
   useEffect(() => {
-    let frame;
+    let current = 0;
+    let target = 0;
+    let raf;
 
-    const animate = () => {
+    const update = () => {
       const img = imgRef.current;
       const wrap = wrapRef.current;
 
@@ -88,20 +129,22 @@ function FeatureRow({ row }) {
       const rect = wrap.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // progress based on viewport center
-      const progress = (rect.top - windowHeight / 2) / windowHeight;
+      // scroll-based progress (-1 to 1)
+      target = (rect.top - windowHeight * 0.5) / windowHeight;
 
-      // Fluence-like smooth movement
-      const move = progress * 80;
+      // smooth interpolation (Fluence feel)
+      current += (target - current) * 0.08;
 
-      img.style.transform = `translate3d(0, ${move}px, 0) scale(1.08)`;
+      const moveY = current * 120; // intensity
 
-      frame = requestAnimationFrame(animate);
+      img.style.transform = `translate3d(0, ${moveY}px, 0) scale(1.1)`;
+
+      raf = requestAnimationFrame(update);
     };
 
-    frame = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(update);
 
-    return () => cancelAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
