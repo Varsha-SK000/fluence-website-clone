@@ -1,155 +1,313 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react"
+
+const plans = [
+  {
+    iconColor: "#60a5fa",
+    name: "Starter",
+    desc: "Get started with Fluence AI at no cost",
+    monthly: "Free",
+    yearly: "Free",
+    note: null,
+    features: [
+      "400 AI credits at signup",
+      "20,000 AI token inputs",
+      "Calendar integration & syncing",
+      "Guest sharing and links",
+    ],
+    cta: "Get Started",
+    highlight: false,
+  },
+  {
+    iconColor: "#f97316",
+    name: "Plus",
+    desc: "Unlock more powerful features",
+    monthly: "$22",
+    yearly: "$18",
+    note: "/month, per user",
+    features: [
+      "Unlimited AI credits",
+      "50,000 AI token inputs",
+      "Calendar integration & syncing",
+      "Guest sharing and links",
+    ],
+    cta: "Get Started",
+    highlight: true,
+    popular: true,
+  },
+  {
+    iconColor: "#ec4899",
+    name: "Pro",
+    desc: "Take your business to the next level",
+    monthly: "$69",
+    yearly: "$55",
+    note: "/month, per user",
+    features: [
+      "Unlimited AI creation",
+      "100,000 AI token inputs",
+      "Calendar integration & syncing",
+      "Guest sharing and links",
+    ],
+    cta: "Get Started",
+    highlight: false,
+  },
+]
 
 export default function Pricing() {
-  const [isYearly, setIsYearly] = useState(false);
-
-  const plans = [
-    {
-      name: "Starter",
-      monthly: "Free",
-      yearly: "Free",
-      desc: "Get started with Fluence AI at no cost",
-      features: [
-        "400 AI credits at signup",
-        "20,000 AI token inputs",
-        "Calendar integration & syncing",
-        "Guest sharing and links",
-      ],
-      popular: false,
-    },
-    {
-      name: "Plus",
-      monthly: "$22",
-      yearly: "$22",
-      desc: "Unlock more powerful features",
-      features: [
-        "Unlimited AI credits",
-        "50,000 AI token inputs",
-        "Calendar integration & syncing",
-        "Guest sharing and links",
-      ],
-      popular: true,
-    },
-    {
-      name: "Pro",
-      monthly: "$69",
-      yearly: "$69",
-      desc: "Take your business to the next level",
-      features: [
-        "Unlimited AI creation",
-        "100,000 AI token inputs",
-        "Calendar integration & syncing",
-        "Guest sharing and links",
-      ],
-      popular: false,
-    },
-  ];
+  const [billing, setBilling] = useState("monthly")
 
   return (
-    <section id="pricing" className="py-24 bg-gray-50 text-center">
-      {/* Header */}
-      <div className="mb-12">
-        <span className="px-4 py-1 border border-purple-400 rounded-full text-sm">
-          Pricing
-        </span>
-        <h2 className="text-4xl font-bold mt-4">Simple, Flexible Pricing</h2>
-        <p className="text-gray-500 mt-2 text-lg">
-          Pricing plans for businesses at every stage
-        </p>
-      </div>
-
-      {/* Monthly/Yearly Toggle */}
-      <div className="flex justify-center mb-16">
-        <div className="relative flex bg-gray-200 p-1 rounded-full w-max">
-          <motion.div
-            layout
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`absolute top-1 bottom-1 w-1/2 bg-white rounded-full shadow`}
-            style={{ left: isYearly ? "50%" : "0" }}
-          />
-          <button
-            onClick={() => setIsYearly(false)}
-            className={`relative z-10 px-6 py-2 font-medium ${!isYearly ? "text-black" : "text-gray-500"
-              }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setIsYearly(true)}
-            className={`relative z-10 px-6 py-2 font-medium ${isYearly ? "text-black" : "text-gray-500"
-              }`}
-          >
-            Yearly
-          </button>
-        </div>
-      </div>
-
-      {/* Pricing Cards */}
-      <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
-        {plans.map((plan, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ scale: 1.05 }}
-            className={`p-8 rounded-3xl relative shadow-lg bg-white transition-transform duration-300 ${plan.popular
-                ? "border-2 border-black scale-105"
-                : "border border-gray-200"
-              }`}
-          >
-            {/* Popular Badge */}
-            {plan.popular && (
-              <span className="absolute top-4 right-4 bg-black text-white text-xs px-3 py-1 rounded-full">
-                Popular
-              </span>
-            )}
-
-            <h3 className="text-2xl font-semibold mb-2">{plan.name}</h3>
-            <p className="text-gray-500 mb-6">{plan.desc}</p>
-
-            {/* Price */}
-            <motion.h2
-              key={isYearly ? plan.yearly : plan.monthly}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-5xl font-bold mb-2"
+    <>
+      {/* SECTION */}
+      <section
+        id="pricing"
+        style={{
+          padding: "120px 0",
+          background: "#fff",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1180px",
+            margin: "0 auto",
+            padding: "0 24px",
+          }}
+        >
+          {/* HEADER */}
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <span
+              className="inline-flex items-center px-4 py-1 rounded-full border shadow-sm"
+              style={{
+                color: "rgb(27, 12, 37)",
+                borderColor: "rgb(213, 136, 251)", // matches framer purple-ish border
+                backgroundColor: "white",
+                lineHeight: "1",
+                fontWeight: 500,
+                fontSize: "13px",
+              }}
             >
-              {isYearly ? plan.yearly : plan.monthly}
-            </motion.h2>
-            {plan.name !== "Starter" && (
-              <p className="text-sm text-gray-400 mb-6">
-                {isYearly ? "/year" : "/month"}
-              </p>
-            )}
+              Pricing
+            </span>
 
-            {/* CTA Button */}
-            <a
-             className={`w-full py-3 rounded-xl mb-6 block text-center font-medium ${plan.popular
-                ? "bg-black text-white hover:bg-gray-900"
-                : "bg-gray-100 hover:bg-gray-200"
-              }`}
+            <h2
+              style={{
+                marginTop: 18,
+                fontSize: "54px",
+                lineHeight: 1.05,
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                color: "#0a0a0a",
+              }}
             >
-              Get Started
-            </a>
+              Simple, Flexible Pricing
+            </h2>
 
-            {/* Features */}
-            <div className="text-left space-y-3">
-              <p className="text-sm font-semibold text-gray-500 mb-2">
-                What's included:
-              </p>
-              {plan.features.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-2 text-sm hover:text-black transition-colors"
+            <p
+              style={{
+                marginTop: 16,
+                fontSize: 17,
+                color: "#666",
+                maxWidth: 460,
+                marginLeft: "auto",
+                marginRight: "auto",
+                lineHeight: 1.6,
+              }}
+            >
+              Pricing plans for businesses at every stage of growth.
+            </p>
+
+            {/* TOGGLE */}
+            <div
+              style={{
+                marginTop: 28,
+                display: "inline-flex",
+                padding: 6,
+                borderRadius: 999,
+                background: "#f5f5f5",
+                border: "1px solid #e6e6e6",
+                gap: 6,
+              }}
+            >
+              {["monthly", "yearly"].map((b) => (
+                <button
+                  key={b}
+                  onClick={() => setBilling(b)}
+                  style={{
+                    padding: "10px 22px",
+                    borderRadius: 999,
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    background: billing === b ? "#111" : "transparent",
+                    color: billing === b ? "#fff" : "#666",
+                  }}
                 >
-                  <span>✔</span>
-                  <span>{feature}</span>
-                </div>
+                  {b}
+                </button>
               ))}
             </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
+          </div>
+
+          {/* GRID */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 18,
+            }}
+          >
+            {plans.map((plan) => (
+              <div
+                key={plan.name}
+                style={{
+                  borderRadius: 22,
+                  padding: "32px 28px",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  background: "#fff",
+                  position: "relative",
+                  transition: "all 0.25s ease",
+                  boxShadow: plan.popular
+                    ? "0 12px 40px rgba(168,85,247,0.12)"
+                    : "none",
+                }}
+                onMouseEnter={(e) => {
+                  if (!plan.popular)
+                    e.currentTarget.style.transform = "translateY(-4px)"
+                }}
+                onMouseLeave={(e) => {
+                  if (!plan.popular)
+                    e.currentTarget.style.transform = "translateY(0)"
+                }}
+              >
+                {/* POPULAR */}
+                {plan.popular && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 14,
+                      right: 14,
+                      fontSize: 11,
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: "#f3e8ff",
+                      color: "#7c3aed",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Popular
+                  </div>
+                )}
+
+                {/* TITLE */}
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ color: plan.iconColor, fontSize: 20 }}>✦</span>
+                  <h3 style={{ fontSize: 20, fontWeight: 700, margin: 0 }}>
+                    {plan.name}
+                  </h3>
+                </div>
+
+                <p style={{ marginTop: 10, fontSize: 14, color: "#777" }}>
+                  {plan.desc}
+                </p>
+
+                {/* PRICE */}
+                <div style={{ marginTop: 22 }}>
+                  <span style={{ fontSize: 44, fontWeight: 800 }}>
+                    {billing === "monthly" ? plan.monthly : plan.yearly}
+                  </span>
+                  {plan.note && (
+                    <span style={{ fontSize: 13, color: "#aaa", marginLeft: 6 }}>
+                      {plan.note}
+                    </span>
+                  )}
+                </div>
+
+                {/* CTA → CONTACT SCROLL */}
+                <a
+                  href="#contact"
+                  style={{
+                    display: "block",
+                    marginTop: 22,
+                    textAlign: "center",
+                    padding: "14px",
+                    borderRadius: 14,
+                    fontWeight: 600,
+                    fontSize: 15,
+                    textDecoration: "none",
+                    border: plan.highlight
+                      ? "none"
+                      : "1px solid rgba(0,0,0,0.15)",
+                    background: plan.highlight ? "#111" : "transparent",
+                    color: plan.highlight ? "#fff" : "#111",
+                  }}
+                >
+                  {plan.cta}
+                </a>
+
+                {/* FEATURES */}
+                <div style={{ marginTop: 26 }}>
+                  <p
+                    style={{
+                      fontSize: 11,
+                      letterSpacing: "0.1em",
+                      color: "#aaa",
+                      textTransform: "uppercase",
+                      marginBottom: 14,
+                    }}
+                  >
+                    What's included
+                  </p>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    {plan.features.map((f) => (
+                      <div
+                        key={f}
+                        style={{
+                          fontSize: 14,
+                          color: "#555",
+                          display: "flex",
+                          gap: 8,
+                        }}
+                      >
+                        <span style={{ color: "#a855f7" }}>✦</span>
+                        {f}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT SECTION (IMPORTANT) */}
+      <section
+        id="contact"
+        style={{
+          padding: "120px 24px",
+          background: "#f9f9f9",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ fontSize: 42, fontWeight: 700 }}>Contact Us</h2>
+        <p style={{ marginTop: 12, color: "#666" }}>
+          This is where the pricing buttons will scroll.
+        </p>
+      </section>
+
+      {/* SMOOTH SCROLL */}
+      <style>{`
+        html {
+          scroll-behavior: smooth;
+        }
+
+        @media (max-width: 900px) {
+          div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+    </>
+  )
 }

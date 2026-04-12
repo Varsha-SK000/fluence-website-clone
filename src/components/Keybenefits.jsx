@@ -1,92 +1,255 @@
-import { motion } from "framer-motion";
+import React from 'react'
 
-const benefits = [
-  {
-    icon: "⚡", 
-    title: "Increased Efficiency",
-    description: "Automate tasks and reduce manual workloads",
-  },
-  {
-    icon: "📈",
-    title: "Scalable Solutions",
-    description: "Easily grow with the demands of your data",
-  },
-  {
-    icon: "⏱️",
-    title: "Faster Decision-Making",
-    description: "Leverage real-time insights for quicker choices",
-  },
-  {
-    icon: "🤝",
-    title: "Enhanced Collaboration",
-    description: "Streamline workflows with team-friendly features",
-  },
-  {
-    icon: "🔒",
-    title: "Data Security",
-    description: "Safeguard your data with top-tier encryption",
-  },
-  {
-    icon: "🔄",
-    title: "Continuous Improvement",
-    description: "Let AI adapt and improve with evolving data",
-  },
-];
+const leftBenefits = [
+  { title: 'Increased Efficiency', desc: 'Automate tasks and reduce manual workloads' },
+  { title: 'Scalable Solutions', desc: 'Easily grow with the demands of your data' },
+  { title: 'Faster Decision-Making', desc: 'Leverage real-time insights for quicker choices' },
+]
 
-export default function About() {
+const rightBenefits = [
+  { title: 'Enhanced Collaboration', desc: 'Streamline workflows with team-friendly features' },
+  { title: 'Data Security', desc: 'Safeguard your data with top-tier encryption' },
+  { title: 'Continuous Improvement', desc: 'Let AI adapt and improve with evolving data' },
+]
+
+/* ================= ICON ================= */
+function BlackCheck() {
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-            Why Choose Fluence AI
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Fluence AI offers powerful benefits that help you save time, improve decision-making, and scale your data operations effortlessly.
-          </p>
-        </motion.div>
+    <div
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: '50%',
+        background: '#0a0a0a',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}
+    >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3">
+        <path d="M20 6L9 17l-5-5" />
+      </svg>
+    </div>
+  )
+}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-gray-50 p-6 rounded-lg text-center"
-            >
-              <div className="text-4xl mb-4">{benefit.icon}</div>
-              <h3 className="text-xl font-bold text-black mb-2">{benefit.title}</h3>
-              <p className="text-gray-600">{benefit.description}</p>
-            </motion.div>
-          ))}
+/* ================= SECURITY CARD ================= */
+function SecurityCard() {
+  const points = ['SOC 2', 'GDPR', 'HIPAA']
+
+  return (
+    <div
+      style={{
+        border: '1px solid #eaeaea',
+        borderRadius: 24,
+        padding: '36px',
+        background: '#fafafa',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: -80,
+          right: -80,
+          width: 220,
+          height: 220,
+          background: 'radial-gradient(circle, rgba(168,85,247,.10) 0%, transparent 70%)',
+        }}
+      />
+
+      <div style={{ position: 'relative' }}>
+        <div
+          style={{
+            fontSize: 11,
+            letterSpacing: '.12em',
+            textTransform: 'uppercase',
+            color: '#aaa',
+            marginBottom: 14,
+          }}
+        >
+          Enterprise Security
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center"
+        <h4
+          style={{
+            fontFamily: 'Bricolage Grotesque',
+            fontSize: 22,
+            fontWeight: 700,
+            marginBottom: 10,
+            color: '#0a0a0a',
+          }}
         >
-          <h3 className="text-2xl font-bold text-black mb-4">Enterprise-Grade Security</h3>
-          <p className="text-gray-600 mb-8">
-            We maintain the highest standards of security and compliance for enterprise automation deployments.
+          Enterprise-Grade Security
+        </h4>
+
+        <p style={{ fontSize: 14, color: '#777', lineHeight: 1.6, marginBottom: 22 }}>
+          We maintain the highest standards of security and compliance for enterprise automation deployments.
+        </p>
+
+        {/* ✅ FRAMER STYLE CIRCLES */}
+        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          {points.map((item) => (
+            <div
+              key={item}
+              style={{
+                width: 66,
+                height: 66,
+                borderRadius: '50%',
+                background: '#FFEBFB',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(168,85,247,0.15)',
+                boxShadow: '0 6px 18px rgba(0,0,0,0.06)',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: '#111',
+                  textAlign: 'center',
+                }}
+              >
+                {item}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ================= MAIN ================= */
+export default function KeyBenefits() {
+  return (
+    <section
+      style={{
+        padding: '120px 0',
+        background: '#fff',
+      }}
+    >
+      {/* ✅ FLUENCE-LIKE CONTAINER */}
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '0 24px',
+        }}
+      >
+
+        {/* HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: 70 }}>
+          <span
+            className="inline-flex items-center px-4 py-1 rounded-full border shadow-sm"
+            style={{
+              color: "rgb(27, 12, 37)",
+              borderColor: "rgb(213, 136, 251)", // matches framer purple-ish border
+              backgroundColor: "white",
+              lineHeight: "1",
+              fontWeight: 500,
+              fontSize: "13px",
+            }}
+          >
+            Key Benefits
+          </span>
+
+          <h2
+            style={{
+              fontFamily: 'Bricolage Grotesque',
+              fontSize: 'clamp(34px,4vw,54px)',
+              fontWeight: 800,
+              marginTop: 14,
+              color: '#0a0a0a',
+            }}
+          >
+            Why Choose Fluence AI
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 560,
+              margin: '14px auto 0',
+              color: '#666',
+              fontSize: 16,
+              lineHeight: 1.7,
+            }}
+          >
+            Fluence AI offers powerful benefits that help you save time, improve decision-making, and scale your data
+            operations effortlessly.
           </p>
-          <div className="flex justify-center space-x-8">
-            <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-semibold">SOC 2</span>
-            <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full font-semibold">GDPR</span>
-            <span className="px-4 py-2 bg-purple-100 text-purple-800 rounded-full font-semibold">HIPAA</span>
+        </div>
+
+        {/* GRID */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1.4fr 1fr',
+            border: '1px solid #eee',
+            borderRadius: 28,
+            overflow: 'hidden',
+            background: '#fafafa',
+          }}
+        >
+
+          {/* LEFT */}
+          <div style={{ padding: 44, display: 'flex', flexDirection: 'column', gap: 34 }}>
+            {leftBenefits.map((b) => (
+              <div key={b.title}>
+                <BlackCheck />
+                <div style={{ fontWeight: 700, marginTop: 10, color: '#111' }}>{b.title}</div>
+                <p style={{ fontSize: 14, color: '#777', lineHeight: 1.6 }}>{b.desc}</p>
+              </div>
+            ))}
           </div>
-        </motion.div>
+
+          {/* CENTER */}
+          <div
+            style={{
+              background: 'linear-gradient(160deg,#fda4af,#c084fc,#a855f7)',
+              padding: 28,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: 14,
+            }}
+          >
+            <div style={{ color: '#fff', fontWeight: 600 }}>AI Assistant</div>
+
+            <div style={{ background: 'rgba(255,255,255,.9)', padding: 16, borderRadius: 14 }}>
+              <div style={{ fontSize: 13 }}>Check subscription status</div>
+              <div style={{ fontSize: 12, color: '#666', marginTop: 6 }}>
+                Processing request...
+              </div>
+              <strong style={{ fontSize: 13, color: '#7c3aed' }}>
+                Done instantly
+              </strong>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div style={{ padding: 44, display: 'flex', flexDirection: 'column', gap: 34 }}>
+            {rightBenefits.map((b) => (
+              <div key={b.title}>
+                <BlackCheck />
+                <div style={{ fontWeight: 700, marginTop: 10, color: '#111' }}>{b.title}</div>
+                <p style={{ fontSize: 14, color: '#777', lineHeight: 1.6 }}>{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SECURITY */}
+        <div style={{ marginTop: 20 }}>
+          <SecurityCard />
+        </div>
+
       </div>
     </section>
-  );
+  )
 }

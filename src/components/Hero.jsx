@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import AnimatedButton from "./AnimatedButton";
 
 /* 🔹 Floating Shape */
 function FloatingShape({ src, className, delay = 0 }) {
@@ -68,13 +69,18 @@ export default function Hero() {
             Fluence AI helps you connect, manage, and optimize your AI tools effortlessly.
           </p>
 
-          <div className="flex justify-center gap-4 mb-12">
-            <button className="px-6 py-3 bg-black text-white rounded-lg">
-              Get Started
-            </button>
-            <button className="px-6 py-3 bg-white/30 border border-white rounded-lg text-white">
-              Book a Demo
-            </button>
+          <div className="mt-10 flex gap-5">
+
+            <AnimatedButton
+              text="Get Started"
+              className="bg-black border border-white/15 text-white hover:bg-white hover:text-black"
+            />
+
+            <AnimatedButton
+              text="Book a Demo"
+              className="bg-white text-black hover:bg-gray-200"
+            />
+
           </div>
         </div>
         <div className="relative z-10 w-full max-w-6xl">

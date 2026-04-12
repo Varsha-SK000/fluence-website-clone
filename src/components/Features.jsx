@@ -1,75 +1,314 @@
-import { motion } from "framer-motion";
-
-const features = [
+const rows = [
   {
-    title: "Adaptive Learning",
-    description: "AI that evolves with your data, continuously improving performance and adapting to new patterns",
-    image: "https://framerusercontent.com/images/L9fccHnZ9UNo9nSWJ1myp0Q0.png?scale-down-to=1024&width=1260&height=668",
+    heading: 'Seamless Data Integration Process',
+    desc: 'Effortlessly connect with diverse data sources, ensuring smooth data flow for real-time insights and accurate analysis.',
+    points: [
+      { icon: '🗄', label: 'Unified Data Connections' },
+      { icon: '🔄', label: 'Real-Time Data Syncing' },
+      { icon: '🔌', label: 'Flexible API Integrations' },
+    ],
+    img: 'https://framerusercontent.com/images/ZHxn4x0VKrIK8kMprl2U0prVPrs.png',
+    imgRight: true,
+    showTag: true,
   },
   {
-    title: "Smart Automation",
-    description: "Empowering you with AI-driven workflows designed to simplify operations, enhance productivity",
-    image: "https://framerusercontent.com/images/fWv8t6fM6yzVYNiHLxm6JJ0QQ.png?width=561&height=501", // Note: this is for Outbound, but fetch has email for Smart
-    // Wait, for Smart Automation, it's an email mockup, but URL not given, perhaps use placeholder or find.
-    // In fetch, for Smart Automation, it's the email: H i  J u l i a From micheal@agentive.com etc.
-    // So, perhaps render the email mockup as text or image.
-    // But to simplify, use the laptop image for now, or create a mockup.
-    // Actually, the image is for Outbound: Man using laptop.
-    // For Smart, no image URL, so perhaps skip or use a placeholder.
-    // Let's use a placeholder for now.
+    heading: 'Advanced AI-Powered Analytics Tools',
+    desc: 'Leverage intelligent analytics to uncover hidden patterns, predict future trends, and make data-driven decisions with confidence.',
+    points: [
+      { icon: '📈', label: 'Accurate Trend Forecasting' },
+      { icon: '📊', label: 'Dynamic Insightful Dashboards' },
+      { icon: '🤖', label: 'AI-Driven Data Metrics' },
+    ],
+    img: 'https://framerusercontent.com/images/yudPladgzJSykTseWh34MLSt0.png',
+    imgRight: false,
+    showTag: false,
   },
   {
-    title: "Outbound Outreach",
-    description: "Personalize campaigns at scale, qualify leads instantly, and close deals faster with AI-driven engagement.",
-    image: "https://framerusercontent.com/images/fWv8t6fM6yzVYNiHLxm6JJ0QQ.png?width=561&height=501",
-  },
-  {
-    title: "Predictive Analytics",
-    description: "Harness advanced models to forecast trends, uncover insights",
-    image: "https://framerusercontent.com/images/qGFZyeulSY1zsGefM4aAo6C78.png?width=678&height=501",
+    heading: 'Intelligent Automation Workflow Engine',
+    desc: 'Automate repetitive tasks, optimize workflows, and boost productivity with smart, AI-powered automation capabilities.',
+    points: [
+      { icon: '⚙️', label: 'Streamlined Workflow Automation' },
+      { icon: '✅', label: 'Efficient Task Optimization' },
+      { icon: '⚡', label: 'Smart Trigger Functions' },
+    ],
+    img: 'https://framerusercontent.com/images/N4vCtjk9YHrPSVPINwtdHZjU.png',
+    imgRight: true,
+    showTag: false,
   },
 ];
 
-export default function Features() {
-  return (
-    <section 
-    id="feature"
-    className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-            Explore the Power of Fluence AI
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover how Fluence AI transforms raw data into actionable insights. Our advanced features are designed to optimize workflows
-          </p>
-        </motion.div>
+// function FeatureRow({ row }) {
+//   return (
+//     <div className="feature-row">
+//       <div className={`feature-grid ${row.imgRight ? 'reverse' : ''}`}>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
-            >
-              <img src={feature.image} alt={feature.title} className="w-full h-64 object-cover" />
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-black mb-4">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+//         {/* TEXT SIDE */}
+//         <div className="text">
+//           {row.showTag && (
+//             <span className="tag">Product Overview</span>
+//           )}
+
+//           <h3>{row.heading}</h3>
+
+//           <p>{row.desc}</p>
+
+//           <div className="points">
+//             {row.points.map((p) => (
+//               <div className="point" key={p.label}>
+//                 <div className="icon">{p.icon}</div>
+//                 <span>{p.label}</span>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* IMAGE SIDE */}
+//         <div className="image">
+//           <img src={row.img} alt={row.heading} />
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// }
+
+function FeatureRow({ row }) {
+  const imgRef = useRef(null);
+  const wrapRef = useRef(null);
+
+  useEffect(() => {
+    let frame;
+
+    const animate = () => {
+      const img = imgRef.current;
+      const wrap = wrapRef.current;
+
+      if (!img || !wrap) return;
+
+      const rect = wrap.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // progress based on viewport center
+      const progress = (rect.top - windowHeight / 2) / windowHeight;
+
+      // Fluence-like smooth movement
+      const move = progress * 80;
+
+      img.style.transform = `translate3d(0, ${move}px, 0) scale(1.08)`;
+
+      frame = requestAnimationFrame(animate);
+    };
+
+    frame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  return (
+    <div className="feature-row">
+      <div className={`feature-grid ${row.imgRight ? "reverse" : ""}`}>
+
+        {/* TEXT */}
+        <div className="text">
+          {row.showTag && <span className="tag">Product Overview</span>}
+
+          <h3>{row.heading}</h3>
+          <p>{row.desc}</p>
+
+          <div className="points">
+            {row.points.map((p) => (
+              <div className="point" key={p.label}>
+                <div className="icon">{p.icon}</div>
+                <span>{p.label}</span>
               </div>
-            </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* IMAGE */}
+        <div className="image" ref={wrapRef}>
+          <img
+            ref={imgRef}
+            src={row.img}
+            alt={row.heading}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              willChange: "transform",
+            }}
+          />
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+export default function ProductOverview() {
+  return (
+    <section className="section">
+      <div className="container">
+
+        {/* HEADER */}
+        <div className="header">
+          <span className="tag">Product Overview</span>
+
+          <h2>Explore the Power of Fluence AI</h2>
+
+          <p>
+            Discover how Fluence AI transforms raw data into actionable insights.
+            Our advanced features are designed to optimize workflows
+          </p>
+        </div>
+
+        {/* CARD */}
+        <div className="card">
+          {rows.map((row, i) => (
+            <FeatureRow key={i} row={row} />
           ))}
         </div>
+
       </div>
+
+      {/* STYLES */}
+      <style>{`
+        .section{
+          padding: 90px 20px;
+          background: #fff;
+        }
+
+        .container{
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+
+        .header{
+          text-align: center;
+          margin-bottom: 60px;
+        }
+
+        .header h2{
+          font-size: 52px;
+          line-height: 1.1;
+          margin: 18px 0;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+        }
+
+        .header p{
+          max-width: 520px;
+          margin: 0 auto;
+          color: #666;
+        }
+
+        .tag{
+          display: inline-block;
+          padding: 6px 14px;
+          border-radius: 999px;
+          border: 1px solid #e5e5e5;
+          font-size: 13px;
+          background: #fff;
+        }
+
+        .card{
+          border: 1px solid #eee;
+          border-radius: 24px;
+          overflow: hidden;
+          background: #fafafa;
+        }
+
+        .feature-row{
+          border-top: 1px solid #eee;
+        }
+
+        .feature-grid{
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          min-height: 420px;
+        }
+
+        .feature-grid.reverse{
+          direction: rtl;
+        }
+
+        .feature-grid.reverse .text,
+        .feature-grid.reverse .image{
+          direction: ltr;
+        }
+
+        .text{
+          padding: 64px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .text h3{
+          font-size: 32px;
+          margin: 14px 0;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+        }
+
+        .text p{
+          color: #666;
+          line-height: 1.7;
+          margin-bottom: 26px;
+        }
+
+        .points{
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .point{
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+
+        .icon{
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: #f3f3f3;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .image{
+          height: 100%;
+          min-height: 420px;
+        }
+
+        .image img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        @media(max-width: 768px){
+          .feature-grid{
+            grid-template-columns: 1fr;
+          }
+
+          .text{
+            padding: 40px 24px;
+          }
+
+          .header h2{
+            font-size: 34px;
+          }
+
+          .image{
+            min-height: 280px;
+          }
+        }
+      `}</style>
     </section>
   );
 }
