@@ -195,7 +195,17 @@ export default function ProductOverview() {
 
         {/* HEADER */}
         <div className="header">
-          <span className="tag">Product Overview</span>
+          <span
+            className="inline-flex items-center px-4 py-1 rounded-full border shadow-sm"
+            style={{
+              color: "rgb(27, 12, 37)",
+              borderColor: "rgb(213, 136, 251)", // matches framer purple-ish border
+              backgroundColor: "white",
+              lineHeight: "1",
+              fontWeight: 500,
+              fontSize: "13px",
+            }}
+          >Product Overview</span>
 
           <h2>Explore the Power of Fluence AI</h2>
 
