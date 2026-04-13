@@ -290,10 +290,6 @@ export default function Pricing() {
           textAlign: "center",
         }}
       >
-        <h2 style={{ fontSize: 42, fontWeight: 700 }}>Contact Us</h2>
-        <p style={{ marginTop: 12, color: "#666" }}>
-          This is where the pricing buttons will scroll.
-        </p>
       </section>
 
       {/* SMOOTH SCROLL */}
